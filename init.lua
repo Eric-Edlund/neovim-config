@@ -840,20 +840,28 @@ cmp.setup {
     },
 }
 
+local focusMode = false
+
 -- Sets the background transparent
 -- Doesn't seem to work. Issue with Wayland and KWin?
 function ColorMyPencils(color)
     color = color or "rose-pine"
     vim.cmd.colorscheme(color)
 
-    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-    vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-    vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
-    vim.api.nvim_set_hl(0, "TroubleNormal", { bg = "none" })
+    if not focusMode then
+        vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+        vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "none" })
+        vim.api.nvim_set_hl(0, "TroubleNormal", { bg = "none" })
+    end
 end
 
 ColorMyPencils()
+vim.keymap.set('n', '<leader>z', function()
+    focusMode = not focusMode
+    ColorMyPencils()
+end)
 
 require 'marks'.setup {
     -- whether to map keybinds or not. default true
